@@ -38,9 +38,7 @@ The C program `main.c`:
     This redirects the standard output (which contains the SVG and HTML tags) to a file named `svg.html` in the same directory.
 4.  **View the output:** Open the `svg.html` file in your web browser to see the generated shapes.
 
-## Examples
-
-*(Since no specific output images for this version of `main.c` were provided, you would add them here. For instance, if you generate `circles_and_rects.png`)*
+## Example
 
 | ![Example Output](generated_image.png) |
 | :--------------------------------------: |
