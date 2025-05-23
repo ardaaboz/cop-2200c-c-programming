@@ -42,6 +42,6 @@ The C program `main.c`:
 
 *(Since no specific output images for this version of `main.c` were provided, you would add them here. For instance, if you generate `circles_and_rects.png`)*
 
-| ![Example Output](circles_and_rects.png) |
+| ![Example Output](generated_image.png) |
 | :--------------------------------------: |
 |         A mix of random circles and rectangles          |
