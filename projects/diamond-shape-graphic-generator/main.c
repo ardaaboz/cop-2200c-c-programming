@@ -3,19 +3,6 @@
 #include <string.h>
 #include <time.h>
 
-// Draw a circle in SVG format
-void circle ( int cx, int cy, int r, char* color )
-{
-    printf ( "\t<circle cx='%d' cy='%d' r='%d' fill='%s' />\n", cx, cy, r, color) ;
-}
-
-// Draw a rectangle in SVG format
-void rect ( int x, int y, int width, int height, char* color )
-{
-    printf ( "\t<rect x='%d' y='%d' width='%d' height='%d' style='fill:%s;stroke-width:3;stroke:rgb(0,0,0)'/>\n",
-        x, y, width, height, color ) ;
-}
-
 void line ( float x1, float y1, float x2, float y2, char* stroke )
 {
     printf ( "<line x1='%f' y1='%f' x2='%f' y2='%f' style='%s' />\n",
