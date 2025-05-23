@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 #include <time.h>
 
 // Draw a circle in SVG format
@@ -14,12 +13,6 @@ void rect ( int x, int y, int width, int height, char* color )
 {
     printf ( "\t<rect x='%d' y='%d' width='%d' height='%d' style='fill:%s;stroke-width:3;stroke:rgb(0,0,0)'/>\n",
         x, y, width, height, color ) ;
-}
-
-void line ( float x1, float y1, float x2, float y2, char* stroke )
-{
-    printf ( "<line x1='%f' y1='%f' x2='%f' y2='%f' style='%s' />\n",
-        x1, y1, x2, y2, stroke ) ;
 }
 
 // Start HTML document with SVG canvas
@@ -52,8 +45,6 @@ char* getRGBColor ( int red, int green, int blue )
 
 int main ( )
 {
-    // Write output to file
-    freopen("svg.html", "w", stdout);  // Or fopen("svg.html", "w")
     // Initialize random seed
     srand( time ( 0 ) ) ;
 
@@ -61,8 +52,9 @@ int main ( )
     beginHtmlSVG ( 1000, 1000, getRGBColor( 0, 0, 0 ) ) ;
 
     // Generate random number of shapes
-    int shapeCount = 0;
-    int maxShapes = (rand() % 50) + 5;
+    int shapeCount = rand() % 250;
+    int shapeCountIncreaseValue = rand() % 10;
+    int maxShapes = 1000;
 
     // Draw shapes until reaching maximum
     while (shapeCount < maxShapes) {
@@ -70,67 +62,26 @@ int main ( )
         int red = rand() % 256;
         int green = rand() % 256;
         int blue = rand() % 256;
-
-        int positionX = (rand() % 500) + 250;
-        int positionY = (rand() % 500) + 250;
-        int lineLength = (rand() % 200) + 10;
-        int lineCount = (rand() % 10) + 5;
-
         char* color = getRGBColor(red, green, blue);
-        static char stroke[100];
-        sprintf(stroke, "stroke:%s; stroke-width:2", color);
 
-        // Horizontal Line
-        line(positionX - lineLength, positionY, positionX + lineLength, positionY, stroke);
-
-        // Vertical line
-        line(positionX, positionY+lineLength, positionX, positionY-lineLength, stroke);
-
-        int i = 0;
-        int var1 = lineCount;
-        int var2 = lineCount-(lineCount-1);
-        while (i < lineCount) {
-            line(positionX, positionY + var1 * (lineLength / lineCount), positionX + var2 * (lineLength / lineCount), positionY, stroke);
-            line(positionX,positionY - var1 * (lineLength / lineCount),positionX + var2 * (lineLength / lineCount), positionY, stroke);
-            line(positionX,positionY - var1 * (lineLength / lineCount),positionX - var2 * (lineLength / lineCount), positionY, stroke);
-            line(positionX,positionY + var1 * (lineLength / lineCount),positionX - var2 * (lineLength / lineCount), positionY, stroke);
-            var1--;
-            var2++;
-            i++;
+        // Draw circles for first half, rectangles for second half
+        if (shapeCount < 500) {
+            int cx = (rand() % 900) + 50;
+            int cy = (rand() % 900) + 50;
+            int r = (rand() % 50) + 10;
+            circle(cx, cy, r, color);
+        } else {
+            int x = (rand() % 800) + 50;
+            int y = (rand() % 800) + 50;
+            int size = (rand() % 50) + 10;
+            rect(x, y, size, size, color);
         }
 
-        /* MANUAL WAY
-        // -3Y, X1
-        line(position,position + 3 * (lineLength / lineCount),position + 1 * (lineLength / lineCount), position, stroke);
-        // -2Y, X2
-        line(position,position + 2 * (lineLength / lineCount),position + 2 * (lineLength / lineCount), position, stroke);
-        // -1Y, X3
-        line(position,position + 1 * (lineLength / lineCount),position + 3 * (lineLength / lineCount), position, stroke);
-
-        // 3Y, X1
-        line(position,position - 3 * (lineLength / lineCount),position + 1 * (lineLength / lineCount), position, stroke);
-        // 2Y, X2
-        line(position,position - 2 * (lineLength / lineCount),position + 2 * (lineLength / lineCount), position, stroke);
-        // 1Y, X3
-        line(position,position - 1 * (lineLength / lineCount),position + 3 * (lineLength / lineCount), position, stroke);
-
-        // 3Y, -X1
-        line(position,position - 3 * (lineLength / lineCount),position - 1 * (lineLength / lineCount), position, stroke);
-        // 2Y, -X2
-        line(position,position - 2 * (lineLength / lineCount),position - 2 * (lineLength / lineCount), position, stroke);
-        // 1Y, -X13
-        line(position,position - 1 * (lineLength / lineCount),position - 3 * (lineLength / lineCount), position, stroke);
-
-        // -3Y, -X1
-        line(position,position + 3 * (lineLength / lineCount),position - 1 * (lineLength / lineCount), position, stroke);
-        // -2Y, -X2
-        line(position,position + 2 * (lineLength / lineCount),position - 2 * (lineLength / lineCount), position, stroke);
-        // -1Y, -X13
-        line(position,position + 1 * (lineLength / lineCount),position - 3 * (lineLength / lineCount), position, stroke);
-        */
-        shapeCount++;
+        shapeCount += shapeCountIncreaseValue;
     }
+
     // Close HTML document
     endHtmlSVG ( ) ;
+
     return 0 ;
 }
